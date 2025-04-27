@@ -43,31 +43,46 @@ class EmpresaFacturacionController extends Controller
     /**
      * Muestra el recurso especificado.
      */
-    public function show(EmpresaFacturacion $empresaFacturacion): JsonResponse
+    public function show(string $_id): JsonResponse
     {
+        $empresaFacturacion = EmpresaFacturacion::find($_id);
         return response()->json(new EmpresaFacturacionResource($empresaFacturacion));
     }
 
     /**
      * Actualiza el recurso especificado en almacenamiento.
      */
-    public function update(EmpresaFacturacionRequest $request, EmpresaFacturacion $empresaFacturacion): JsonResponse
+    public function update(EmpresaFacturacionRequest $request, string $_id): JsonResponse
     {
+        $empresaFacturacion = EmpresaFacturacion::find($_id);
+
+        if (!$empresaFacturacion) {
+            return response()->json(['mensaje' => 'Empresa de facturación no encontrada.'], 404);
+        }
+
         $empresaFacturacion->update($request->validated());
 
-        return response()->json(new EmpresaFacturacionResource($empresaFacturacion));
+        return response()->json([
+            'actualizacion' => new EmpresaFacturacionResource($empresaFacturacion),
+        ], 200);
     }
 
     /**
      * Elimina el recurso especificado de almacenamiento.
      */
-    public function destroy(EmpresaFacturacion $empresaFacturacion): Response
+    public function destroy(string $id): JsonResponse
     {
+        $empresaFacturacion = EmpresaFacturacion::find($id);
+
+        if (!$empresaFacturacion) {
+            return response()->json(['mensaje' => 'Empresa de facturación no encontrada.'], 404);
+        }
+
         $empresaFacturacion->delete();
 
         return response()->json([
-            'mensaje' => 'La empresa de facturacion ha sido eliminado correctamente.',
+            'mensaje' => 'La empresa de facturación ha sido eliminada correctamente.',
         ], 200);
     }
-    
+
 }

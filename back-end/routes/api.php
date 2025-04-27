@@ -36,7 +36,8 @@ Route::middleware('auth:api')->group(function () {
 
     Route::apiResource('patrons',              PatronController::class);
 
-    Route::apiResource('empresas-facturacion', EmpresaFacturacionController::class);
+    Route::apiResource('empresas-facturacion', EmpresaFacturacionController::class)
+    ->parameters(['empresas-facturacion' => '_id']);
 
     Route::apiResource('departamentos',        DepartamentoController::class);
 

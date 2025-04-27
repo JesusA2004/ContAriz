@@ -62,7 +62,7 @@ class PrimaVacacionaleController extends Controller
     /**
      * Elimina el recurso especificado de almacenamiento.
      */
-    public function destroy(PrimaVacacionale $primaVacacionale): Response
+    public function destroy(PrimaVacacionale $primaVacacionale): JsonResponse
     {
         $primaVacacionale->delete();
 

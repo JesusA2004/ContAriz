@@ -11,7 +11,9 @@ class EmpresaFacturacion extends Model
 
     protected $fillable = [
         'nombre',
-        'plaza',
+        'plaza_id',
     ];
+
+    protected $primaryKey = '_id'; // <- Agregado aquí
 
 }

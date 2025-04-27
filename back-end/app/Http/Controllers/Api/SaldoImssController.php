@@ -62,7 +62,7 @@ class SaldoImssController extends Controller
     /**
      * Elimina el recurso especificado.
      */
-    public function destroy(SaldoImss $saldoImss): Response
+    public function destroy(SaldoImss $saldoImss): JsonResponse
     {
         $saldoImss->delete();
 

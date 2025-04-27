@@ -62,7 +62,7 @@ class CuentaBancariaController extends Controller
     /**
      * Elimina el recurso especificado del almacenamiento.
      */
-    public function destroy(CuentaBancaria $cuentaBancaria): Response
+    public function destroy(CuentaBancaria $cuentaBancaria): JsonResponse
     {
         $cuentaBancaria->delete();
 

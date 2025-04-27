@@ -62,7 +62,7 @@ class VacacioneController extends Controller
     /**
      * Elimina el recurso especificado.
      */
-    public function destroy(Vacacione $vacacione): Response
+    public function destroy(Vacacione $vacacione): JsonResponse
     {
         $vacacione->delete();
 

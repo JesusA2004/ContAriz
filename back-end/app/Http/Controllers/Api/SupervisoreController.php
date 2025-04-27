@@ -62,7 +62,7 @@ class SupervisoreController extends Controller
     /**
      * Elimina el recurso especificado.
      */
-    public function destroy(Supervisore $supervisore): Response
+    public function destroy(Supervisore $supervisore): JsonResponse
     {
         $supervisore->delete();
 

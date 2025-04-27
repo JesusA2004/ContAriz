@@ -61,7 +61,7 @@ class DepartamentoController extends Controller
     /**
      * Elimina el recurso especificado del almacenamiento.
      */
-    public function destroy(Departamento $departamento): Response
+    public function destroy(Departamento $departamento): JsonResponse
     {
         $departamento->delete();
 

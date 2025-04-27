@@ -62,7 +62,7 @@ class PlazaController extends Controller
     /**
      * Elimina el recurso especificado del almacenamiento.
      */
-    public function destroy(Plaza $plaza): Response
+    public function destroy(Plaza $plaza): JsonResponse
     {
         $plaza->delete();
 

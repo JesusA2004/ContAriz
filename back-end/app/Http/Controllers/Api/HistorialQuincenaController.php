@@ -62,7 +62,7 @@ class HistorialQuincenaController extends Controller
     /**
      * Elimina el recurso especificado del almacenamiento.
      */
-    public function destroy(HistorialQuincena $historialQuincena): Response
+    public function destroy(HistorialQuincena $historialQuincena): JsonResponse
     {
         $historialQuincena->delete();
 

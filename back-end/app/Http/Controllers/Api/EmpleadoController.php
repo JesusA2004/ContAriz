@@ -61,7 +61,7 @@ class EmpleadoController extends Controller
     /**
      * Elimina el recurso especificado del almacenamiento.
      */
-    public function destroy(Empleado $empleado): Response
+    public function destroy(Empleado $empleado): JsonResponse
     {
         $empleado->delete();
 
