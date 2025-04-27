@@ -53,10 +53,13 @@ class PatronController extends Controller
     /**
      * Delete the specified resource.
      */
-    public function destroy(Patron $patron): Response
+    public function destroy(Patron $patron): JsonResponse
     {
         $patron->delete();
 
-        return response()->noContent();
+        return response()->json([
+            'message' => 'Patrón eliminado correctamente.',
+        ], 200); // 🔥 Código 200 OK
     }
+    
 }
