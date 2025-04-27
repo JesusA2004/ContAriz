@@ -7,6 +7,8 @@ use MongoDB\Laravel\Eloquent\Model;
 class EmpresaFacturacion extends Model
 {
     
+    protected $collection = 'empresas_facturacion';
+
     protected $perPage = 20;
 
     protected $fillable = [
