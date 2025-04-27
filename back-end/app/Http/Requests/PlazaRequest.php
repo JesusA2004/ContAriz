@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class VacacioneRequest extends FormRequest
+class PlazaRequest extends FormRequest
 {
 
     public function authorize(): bool
@@ -15,9 +15,8 @@ class VacacioneRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'descripcion' => 'required|string|max:100',
-            'fecha'       => 'required|date',
-            'empleado_id' => 'required|string|exists:empleados,_id',
+            'nombre'    => 'required|string|max:120',
+            'patron_id' => 'required|string|exists:patrons,_id',
         ];
     }
 

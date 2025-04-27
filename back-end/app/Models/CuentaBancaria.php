@@ -2,26 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use MongoDB\Laravel\Eloquent\Model;
 
-/**
- * Class CuentaBancaria
- *
- *
- * @package App
- * @mixin \Illuminate\Database\Eloquent\Builder
- */
 class CuentaBancaria extends Model
 {
     
     protected $perPage = 20;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [];
+    protected $fillable = [
+        'cuentaBancaria',
+        'tarjeta',
+        'clabeI',
+        'nombreBanco',
+        'empleado_id',
+    ];
 
 
 }

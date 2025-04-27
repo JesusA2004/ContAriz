@@ -4,16 +4,14 @@ namespace App\Models;
 
 use MongoDB\Laravel\Eloquent\Model;
 
-class SaldoImss extends Model
+class Plaza extends Model
 {
     
     protected $perPage = 20;
 
     protected $fillable = [
-        'descripcion',
-        'saldo',
-        'fecha',
-        'empleado_id',
+        'nombre',
+        'patron_id',
     ];
 
 }

@@ -2,26 +2,32 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use MongoDB\Laravel\Eloquent\Model;
 
-/**
- * Class Empleado
- *
- *
- * @package App
- * @mixin \Illuminate\Database\Eloquent\Builder
- */
 class Empleado extends Model
 {
     
     protected $perPage = 20;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [];
+    protected $fillable = [
+        'nombre',
+        'apellidoP',
+        'apellidoM',
+        'imss',
+        'registroPatronal',
+        'cp',
+        'nss',
+        'rfc',
+        'curp',
+        'fechaAltaImss',
+        'sdi',
+        'estado',
+        'creditoInfonavit',
+        'fechaIngreso',
+        'fechaAguinaldo',
+        'estatus',
+        'departamento_id',
+    ];
 
 
 }

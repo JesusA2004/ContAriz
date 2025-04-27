@@ -8,8 +8,7 @@ class Kernel extends HttpKernel
 {
     /**
      * The application's global HTTP middleware stack.
-     *
-     * These middleware are run during every request to your application.
+     * Estos middleware se ejecutan en cada petición.
      *
      * @var array<int, class-string|string>
      */
@@ -24,7 +23,7 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * The application's route middleware groups.
+     * Los grupos de middleware por tipo de ruta: web o api.
      *
      * @var array<string, array<int, class-string|string>>
      */
@@ -39,16 +38,14 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+            // Sanctum eliminado ya que usarás JWT
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
 
     /**
-     * The application's middleware aliases.
-     *
-     * Aliases may be used instead of class names to conveniently assign middleware to routes and groups.
+     * Alias para middleware individuales que puedes usar en rutas o controladores.
      *
      * @var array<string, class-string|string>
      */
@@ -64,5 +61,8 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
+        // ✅ Alias adicional para usar explícitamente en rutas como 'auth.api'
+        'auth.api' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
     ];
 }

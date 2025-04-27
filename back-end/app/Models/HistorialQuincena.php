@@ -2,26 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use MongoDB\Laravel\Eloquent\Model;
 
-/**
- * Class HistorialQuincena
- *
- *
- * @package App
- * @mixin \Illuminate\Database\Eloquent\Builder
- */
 class HistorialQuincena extends Model
 {
     
     protected $perPage = 20;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [];
-
+    protected $fillable = [
+        'quincena',
+        'fecha',
+        'empleado_id',
+    ];
 
 }
