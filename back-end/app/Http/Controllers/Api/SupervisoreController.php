@@ -12,18 +12,27 @@ use App\Http\Resources\SupervisoreResource;
 
 class SupervisoreController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de los recursos.
      */
     public function index(Request $request)
     {
-        $supervisores = Supervisore::paginate();
+        $supervisores = Supervisore::paginate(20);
 
-        return SupervisoreResource::collection($supervisores);
+        return response()->json([
+            'registros'  => SupervisoreResource::collection($supervisores)->resolve(),
+            'enlaces' => [
+                'primero' => $supervisores->url(1),
+                'ultimo'  => $supervisores->url($supervisores->lastPage()),
+                'anterior'  => $supervisores->previousPageUrl(),
+                'siguiente'  => $supervisores->nextPageUrl(),
+            ],
+        ], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Guarda un nuevo recurso.
      */
     public function store(SupervisoreRequest $request): JsonResponse
     {
@@ -33,7 +42,7 @@ class SupervisoreController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el recurso especificado.
      */
     public function show(Supervisore $supervisore): JsonResponse
     {
@@ -41,7 +50,7 @@ class SupervisoreController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza el recurso especificado.
      */
     public function update(SupervisoreRequest $request, Supervisore $supervisore): JsonResponse
     {
@@ -51,12 +60,15 @@ class SupervisoreController extends Controller
     }
 
     /**
-     * Delete the specified resource.
+     * Elimina el recurso especificado.
      */
     public function destroy(Supervisore $supervisore): Response
     {
         $supervisore->delete();
 
-        return response()->noContent();
+        return response()->json([
+            'mensaje' => 'El supervisor fue eliminado correctamente.',
+        ], 200);
     }
+    
 }

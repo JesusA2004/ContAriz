@@ -13,17 +13,25 @@ use App\Http\Resources\DepartamentoResource;
 class DepartamentoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de recursos.
      */
     public function index(Request $request)
     {
-        $departamentos = Departamento::paginate();
+        $departamentos = Departamento::paginate(20);
 
-        return DepartamentoResource::collection($departamentos);
+        return response()->json([
+            'registros'  => DepartamentoResource::collection($departamentos)->resolve(),
+            'enlaces' => [
+                'primero' => $departamentos->url(1),
+                'ultimo'  => $departamentos->url($departamentos->lastPage()),
+                'anterior'  => $departamentos->previousPageUrl(),
+                'siguiente'  => $departamentos->nextPageUrl(),
+            ],
+        ], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Guarda un nuevo recurso en el almacenamiento.
      */
     public function store(DepartamentoRequest $request): JsonResponse
     {
@@ -33,7 +41,7 @@ class DepartamentoController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el recurso especificado.
      */
     public function show(Departamento $departamento): JsonResponse
     {
@@ -41,7 +49,7 @@ class DepartamentoController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza el recurso especificado en el almacenamiento.
      */
     public function update(DepartamentoRequest $request, Departamento $departamento): JsonResponse
     {
@@ -51,12 +59,16 @@ class DepartamentoController extends Controller
     }
 
     /**
-     * Delete the specified resource.
+     * Elimina el recurso especificado del almacenamiento.
      */
     public function destroy(Departamento $departamento): Response
     {
         $departamento->delete();
 
-        return response()->noContent();
+        return response()->json([
+            'mensaje' => 'Departamento eliminado correctamente.',
+        ], 200);
+        
     }
+
 }

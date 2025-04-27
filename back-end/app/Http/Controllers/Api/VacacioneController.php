@@ -12,18 +12,27 @@ use App\Http\Resources\VacacioneResource;
 
 class VacacioneController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de los recursos.
      */
     public function index(Request $request)
     {
-        $vacaciones = Vacacione::paginate();
+        $vacaciones = Vacacione::paginate(20);
 
-        return VacacioneResource::collection($vacaciones);
+        return response()->json([
+            'registros'  => VacacioneResource::collection($vacaciones)->resolve(),
+            'enlaces' => [
+                'primero' => $vacaciones->url(1),
+                'ultimo'  => $vacaciones->url($vacaciones->lastPage()),
+                'anterior'  => $vacaciones->previousPageUrl(),
+                'siguiente'  => $vacaciones->nextPageUrl(),
+            ],
+        ], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Guarda un nuevo recurso.
      */
     public function store(VacacioneRequest $request): JsonResponse
     {
@@ -33,7 +42,7 @@ class VacacioneController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el recurso especificado.
      */
     public function show(Vacacione $vacacione): JsonResponse
     {
@@ -41,7 +50,7 @@ class VacacioneController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza el recurso especificado.
      */
     public function update(VacacioneRequest $request, Vacacione $vacacione): JsonResponse
     {
@@ -51,12 +60,15 @@ class VacacioneController extends Controller
     }
 
     /**
-     * Delete the specified resource.
+     * Elimina el recurso especificado.
      */
     public function destroy(Vacacione $vacacione): Response
     {
         $vacacione->delete();
 
-        return response()->noContent();
+        return response()->json([
+            'mensaje' => 'Las vacaciones fueron eliminadas correctamente.',
+        ], 200);
     }
+
 }

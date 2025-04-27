@@ -12,18 +12,27 @@ use App\Http\Resources\PatronResource;
 
 class PatronController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de los recursos.
      */
     public function index(Request $request)
     {
-        $patrons = Patron::paginate();
+        $patrons = Patron::paginate(20);
 
-        return PatronResource::collection($patrons);
+        return response()->json([
+            'registros'  => PatronResource::collection($patrons)->resolve(),
+            'enlaces' => [
+                'primero' => $patrons->url(1),
+                'ultimo'  => $patrons->url($patrons->lastPage()),
+                'anterior'  => $patrons->previousPageUrl(),
+                'siguiente'  => $patrons->nextPageUrl(),
+            ],
+        ], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Guarda un nuevo recurso en el almacenamiento.
      */
     public function store(PatronRequest $request): JsonResponse
     {
@@ -33,7 +42,7 @@ class PatronController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el recurso especificado.
      */
     public function show(Patron $patron): JsonResponse
     {
@@ -41,7 +50,7 @@ class PatronController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza el recurso especificado en el almacenamiento.
      */
     public function update(PatronRequest $request, Patron $patron): JsonResponse
     {
@@ -51,14 +60,14 @@ class PatronController extends Controller
     }
 
     /**
-     * Delete the specified resource.
+     * Elimina el recurso especificado de almacenamiento.
      */
     public function destroy(Patron $patron): JsonResponse
     {
         $patron->delete();
 
         return response()->json([
-            'message' => 'Patrón eliminado correctamente.',
+            'mensaje' => 'Patrón eliminado correctamente.',
         ], 200); // 🔥 Código 200 OK
     }
     

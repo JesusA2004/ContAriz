@@ -12,18 +12,27 @@ use App\Http\Resources\PlazaResource;
 
 class PlazaController extends Controller
 {
+    
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de los recursos.
      */
     public function index(Request $request)
     {
-        $plazas = Plaza::paginate();
+        $plazas = Plaza::paginate(20);
 
-        return PlazaResource::collection($plazas);
+        return response()->json([
+            'registros'  => PlazaResource::collection($plazas)->resolve(),
+            'enlaces' => [
+                'primero' => $plazas->url(1),
+                'ultimo'  => $plazas->url($plazas->lastPage()),
+                'anterior'  => $plazas->previousPageUrl(),
+                'siguiente'  => $plazas->nextPageUrl(),
+            ],
+        ], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Guarda un nuevo recurso en el almacenamiento.
      */
     public function store(PlazaRequest $request): JsonResponse
     {
@@ -33,7 +42,7 @@ class PlazaController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el recurso especificado.
      */
     public function show(Plaza $plaza): JsonResponse
     {
@@ -41,7 +50,7 @@ class PlazaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza el recurso especificado en el almacenamiento.
      */
     public function update(PlazaRequest $request, Plaza $plaza): JsonResponse
     {
@@ -51,12 +60,15 @@ class PlazaController extends Controller
     }
 
     /**
-     * Delete the specified resource.
+     * Elimina el recurso especificado del almacenamiento.
      */
     public function destroy(Plaza $plaza): Response
     {
         $plaza->delete();
 
-        return response()->noContent();
+        return response()->json([
+            'mensaje' => 'Plaza eliminada correctamente.',
+        ], 200);
     }
+
 }

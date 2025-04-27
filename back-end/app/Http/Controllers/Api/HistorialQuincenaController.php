@@ -12,18 +12,27 @@ use App\Http\Resources\HistorialQuincenaResource;
 
 class HistorialQuincenaController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de los recursos.
      */
     public function index(Request $request)
     {
-        $historialQuincenas = HistorialQuincena::paginate();
+        $historialQuincenas = HistorialQuincena::paginate(20);
 
-        return HistorialQuincenaResource::collection($historialQuincenas);
+        return response()->json([
+            'registros'  => HistorialQuincenaResource::collection($historialQuincenas)->resolve(),
+            'enlaces' => [
+                'primero' => $historialQuincenas->url(1),
+                'ultimo'  => $historialQuincenas->url($historialQuincenas->lastPage()),
+                'anterior'  => $historialQuincenas->previousPageUrl(),
+                'siguiente'  => $historialQuincenas->nextPageUrl(),
+            ],
+        ], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Guarda un nuevo recurso en el almacenamiento.
      */
     public function store(HistorialQuincenaRequest $request): JsonResponse
     {
@@ -33,7 +42,7 @@ class HistorialQuincenaController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el recurso especificado.
      */
     public function show(HistorialQuincena $historialQuincena): JsonResponse
     {
@@ -41,7 +50,7 @@ class HistorialQuincenaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza el recurso especificado en el almacenamiento.
      */
     public function update(HistorialQuincenaRequest $request, HistorialQuincena $historialQuincena): JsonResponse
     {
@@ -51,12 +60,16 @@ class HistorialQuincenaController extends Controller
     }
 
     /**
-     * Delete the specified resource.
+     * Elimina el recurso especificado del almacenamiento.
      */
     public function destroy(HistorialQuincena $historialQuincena): Response
     {
         $historialQuincena->delete();
 
-        return response()->noContent();
+        return response()->json([
+            'mensaje' => 'Historial de quincena eliminado correctamente.',
+        ],200); // 🔥 Código 200 OK
+
     }
+    
 }

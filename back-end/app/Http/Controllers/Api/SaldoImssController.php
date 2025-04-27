@@ -12,18 +12,27 @@ use App\Http\Resources\SaldoImssResource;
 
 class SaldoImssController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de los recursos.
      */
     public function index(Request $request)
     {
-        $saldoImsses = SaldoImss::paginate();
+        $saldoImsses = SaldoImss::paginate(20);
 
-        return SaldoImssResource::collection($saldoImsses);
+        return response()->json([
+            'registros'  => SaldoImssResource::collection($saldoImsses)->resolve(),
+            'enlaces' => [
+                'primero' => $saldoImsses->url(1),
+                'ultimo'  => $saldoImsses->url($saldoImsses->lastPage()),
+                'anterior'  => $saldoImsses->previousPageUrl(),
+                'siguiente'  => $saldoImsses->nextPageUrl(),
+            ],
+        ], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Guarda un nuevo recurso.
      */
     public function store(SaldoImssRequest $request): JsonResponse
     {
@@ -33,7 +42,7 @@ class SaldoImssController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el recurso especificado.
      */
     public function show(SaldoImss $saldoImss): JsonResponse
     {
@@ -41,7 +50,7 @@ class SaldoImssController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza el recurso especificado.
      */
     public function update(SaldoImssRequest $request, SaldoImss $saldoImss): JsonResponse
     {
@@ -51,12 +60,14 @@ class SaldoImssController extends Controller
     }
 
     /**
-     * Delete the specified resource.
+     * Elimina el recurso especificado.
      */
     public function destroy(SaldoImss $saldoImss): Response
     {
         $saldoImss->delete();
 
-        return response()->noContent();
+        return response()->json([
+            'mensaje' => 'Saldo imss fue eliminado correctamente.',
+        ], 200);
     }
 }

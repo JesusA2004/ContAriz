@@ -13,17 +13,25 @@ use App\Http\Resources\EmpresaFacturacionResource;
 class EmpresaFacturacionController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de recursos.
      */
     public function index(Request $request)
     {
-        $empresaFacturacions = EmpresaFacturacion::paginate();
+        $empresaFacturacions = EmpresaFacturacion::paginate(20);
 
-        return EmpresaFacturacionResource::collection($empresaFacturacions);
+        return response()->json([
+            'registros'  => EmpresaFacturacionResource::collection($empresaFacturacions)->resolve(),
+            'enlaces' => [
+                'primero' => $empresaFacturacions->url(1),
+                'ultimo'  => $empresaFacturacions->url($empresaFacturacions->lastPage()),
+                'anterior'  => $empresaFacturacions->previousPageUrl(),
+                'siguiente'  => $empresaFacturacions->nextPageUrl(),
+            ],
+        ], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Guarda un nuevo recurso en almacenamiento.
      */
     public function store(EmpresaFacturacionRequest $request): JsonResponse
     {
@@ -33,7 +41,7 @@ class EmpresaFacturacionController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el recurso especificado.
      */
     public function show(EmpresaFacturacion $empresaFacturacion): JsonResponse
     {
@@ -41,7 +49,7 @@ class EmpresaFacturacionController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza el recurso especificado en almacenamiento.
      */
     public function update(EmpresaFacturacionRequest $request, EmpresaFacturacion $empresaFacturacion): JsonResponse
     {
@@ -51,12 +59,15 @@ class EmpresaFacturacionController extends Controller
     }
 
     /**
-     * Delete the specified resource.
+     * Elimina el recurso especificado de almacenamiento.
      */
     public function destroy(EmpresaFacturacion $empresaFacturacion): Response
     {
         $empresaFacturacion->delete();
 
-        return response()->noContent();
+        return response()->json([
+            'mensaje' => 'La empresa de facturacion ha sido eliminado correctamente.',
+        ], 200);
     }
+    
 }

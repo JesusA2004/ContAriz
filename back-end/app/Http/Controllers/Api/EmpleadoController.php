@@ -13,17 +13,25 @@ use App\Http\Resources\EmpleadoResource;
 class EmpleadoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     *  Muestra una lista de los recursos.
      */
     public function index(Request $request)
     {
-        $empleados = Empleado::paginate();
+        $empleados = Empleado::paginate(20);
 
-        return EmpleadoResource::collection($empleados);
+        return response()->json([
+            'registros'  => EmpleadoResource::collection($empleados)->resolve(),
+            'enlaces' => [
+                'primero' => $empleados->url(1),
+                'ultimo'  => $empleados->url($empleados->lastPage()),
+                'anterior'  => $empleados->previousPageUrl(),
+                'siguiente'  => $empleados->nextPageUrl(),
+            ],
+        ], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Guarda un nuevo recurso en el almacenamiento.
      */
     public function store(EmpleadoRequest $request): JsonResponse
     {
@@ -33,7 +41,7 @@ class EmpleadoController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el recurso especificado.
      */
     public function show(Empleado $empleado): JsonResponse
     {
@@ -41,7 +49,7 @@ class EmpleadoController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza el recurso especificado en el almacenamiento.
      */
     public function update(EmpleadoRequest $request, Empleado $empleado): JsonResponse
     {
@@ -51,12 +59,15 @@ class EmpleadoController extends Controller
     }
 
     /**
-     * Delete the specified resource.
+     * Elimina el recurso especificado del almacenamiento.
      */
     public function destroy(Empleado $empleado): Response
     {
         $empleado->delete();
 
-        return response()->noContent();
+        return response()->json([
+            'mensaje' => 'Empleado eliminado correctamente',
+        ], 200);
     }
+    
 }

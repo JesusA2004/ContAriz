@@ -12,18 +12,27 @@ use App\Http\Resources\CuentaBancariaResource;
 
 class CuentaBancariaController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * Muestra la lista de recursos.
      */
     public function index(Request $request)
     {
-        $cuentaBancarias = CuentaBancaria::paginate();
+        $cuentaBancarias = CuentaBancaria::paginate(20);
 
-        return CuentaBancariaResource::collection($cuentaBancarias);
+        return response()->json([
+            'registros'  => CuentaBancariaResource::collection($cuentaBancarias)->resolve(),
+            'enlaces' => [
+                'primero' => $cuentaBancarias->url(1),
+                'ultimo'  => $cuentaBancarias->url($cuentaBancarias->lastPage()),
+                'anterior'  => $cuentaBancarias->previousPageUrl(),
+                'siguiente'  => $cuentaBancarias->nextPageUrl(),
+            ],
+        ], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Guarda un nuevo recurso en el almacenamiento.
      */
     public function store(CuentaBancariaRequest $request): JsonResponse
     {
@@ -33,7 +42,7 @@ class CuentaBancariaController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el recurso especificado.
      */
     public function show(CuentaBancaria $cuentaBancaria): JsonResponse
     {
@@ -41,7 +50,7 @@ class CuentaBancariaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza el recurso especificado en el almacenamiento.
      */
     public function update(CuentaBancariaRequest $request, CuentaBancaria $cuentaBancaria): JsonResponse
     {
@@ -51,12 +60,15 @@ class CuentaBancariaController extends Controller
     }
 
     /**
-     * Delete the specified resource.
+     * Elimina el recurso especificado del almacenamiento.
      */
     public function destroy(CuentaBancaria $cuentaBancaria): Response
     {
         $cuentaBancaria->delete();
 
-        return response()->noContent();
+        return response()->json([
+            'mensaje' => 'Cuenta bancaria eliminada correctamente.',
+        ], 200);
     }
+    
 }
