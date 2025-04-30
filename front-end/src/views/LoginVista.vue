@@ -51,6 +51,10 @@
 </template>
   
 <script setup>
+
+    // Importar el componente de validación de campos (Js)
+    import { validarCamposLogin } from '@/assets/js/Login.js'
+
     import { ref, computed } from 'vue'
     import axios from 'axios'
     
@@ -74,6 +78,14 @@
         isLoading.value = true
         errorMessage.value = ''
     
+        const { valid, message } = validarCamposLogin(email.value, password.value)
+        if (!valid) {
+          errorMessage.value = message
+          isLoading.value = false
+          return
+        }
+
+        // Llamada a la API
         try {
           const { data } = await axios.post(loginUrl, {
               email: email.value,
@@ -93,93 +105,6 @@
         }
     }
 </script>
-  
-<style lang="css" scoped>
 
-  .login-page {
-    height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 1rem;
-  }
-  
-  .login-card {
-    width: 100%;
-    max-width: 380px;
-    background: #fff;
-    border-radius: 1rem;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-  }
+<style src="@/assets/css/Login.css" scoped></style>
 
-  .login-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  }
-  
-  h2 {
-    font-weight: 600;
-    color: #333;
-  }
-  
-  .wave {
-    display: inline-block;
-    animation: wave 1.5s infinite;
-  }
-
-  @keyframes wave {
-    0%, 60%, 100% { transform: rotate(0deg); }
-    30% { transform: rotate(15deg); }
-    50% { transform: rotate(-10deg); }
-  }
-  
-  .form-label {
-    font-weight: 500;
-    color: #555;
-  }
-  
-  .input-group-text.password-toggle {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: #888;
-    transition: color 0.3s;
-  }
-
-  .input-group-text.password-toggle:hover {
-    color: #333;
-  }
-  
-  .btn-login {
-    background: #667eea;
-    border: none;
-    padding: 0.6rem;
-    font-size: 1.05rem;
-    font-weight: 500;
-    transition: background 0.3s, transform 0.2s;
-  }
-
-  .btn-login:hover:not(:disabled) {
-    background: #5a67d8;
-    transform: translateY(-2px);
-  }
-
-  .btn-login:disabled {
-    opacity: 0.7;
-  }
-  
-  .register-link {
-    color: #764ba2;
-    font-weight: 500;
-    transition: color 0.3s;
-  }
-
-  .register-link:hover {
-    color: #667eea;
-    text-decoration: underline;
-  }
-  
-  .alert {
-    font-size: 0.9rem;
-  }
-
-</style>
-  

@@ -92,7 +92,7 @@
     </div>
   </template>
   
-  <script setup>
+<script setup>
   import { ref, computed } from 'vue'
   import axios from 'axios'
   import { useRouter } from 'vue-router'
@@ -144,16 +144,36 @@
       isLoading.value = false
     }
   }
-  </script>
+</script>
   
-  <style lang="css" scoped>
+<style lang="css" scoped>
+
   .register-page {
-    height: 100vh;
-    background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
     padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin: 0;
+    background: url('@/assets/images/backgroundLogin.png') no-repeat center center / cover;
+  }
+
+  .register-page::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
   }
   
   .register-card {
+    z-index: 2;
     width: 100%;
     max-width: 400px;
     background: #fff;
@@ -174,6 +194,7 @@
     display: inline-block;
     animation: sparkle 2s infinite;
   }
+
   @keyframes sparkle {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.6; transform: scale(1.1); }
@@ -222,5 +243,6 @@
   .alert {
     font-size: 0.9rem;
   }
-  </style>
+
+</style>
   

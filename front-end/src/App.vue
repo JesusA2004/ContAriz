@@ -30,12 +30,9 @@
       </div>
     </nav>
 
-  <div class="container-fluid mt-3">
+  <div>
     <router-view/>
   </div> 
 
 </template>
 
-<style scoped>
-
-</style>
