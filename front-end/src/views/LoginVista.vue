@@ -42,10 +42,6 @@
             {{ errorMessage }}
           </p>
         </form>
-        <p class="text-center mt-4">
-          ¿Aún no tienes cuenta?
-          <router-link to="/registrar" class="register-link">Crea una gratis</router-link>
-        </p>
       </div>
     </div>
 </template>

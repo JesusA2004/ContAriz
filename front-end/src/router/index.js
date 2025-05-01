@@ -1,16 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeVista from '../views/HomeVista.vue';
 import LoginVista from '../views/LoginVista.vue';
-import RegistroVista from '../views/RegistroVista.vue';
+import Index from '../views/Index.vue';
 
 const routes = [
   {
     path: '/',
-    component: LoginVista
+    component: Index
   },
   {
-    path: '/registrar',
-    component: RegistroVista
+    path: '/login',
+    component: LoginVista
   },
   {
     path: '/home',

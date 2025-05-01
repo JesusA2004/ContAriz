@@ -8,6 +8,11 @@ export function validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
 }
+
+export function validatePassword(password) {
+    // Verifica si la contraseña tiene al menos 8 caracteres
+    return password.length >= 8;
+}
   
   /**
    * Valida los campos de login:
@@ -30,6 +35,13 @@ export function validarCamposLogin(email, password) {
       return {
         valid: false,
         message: 'El correo electrónico no tiene un formato válido.',
+      };
+    }
+
+    if (!validatePassword(password)) {
+      return {
+        valid: false,
+        message: 'La contraseña debe tener al menos 8 caracteres.',
       };
     }
   
